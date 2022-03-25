@@ -22,7 +22,7 @@ jobs:
             password: ${{ secrets.REGISTRY_PASSWORD }}
         - run: |
             docker build -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/node-back .
-            docker push ${{ secrets.RESOURCE_GROUP }}/node-back
+            docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/node-back
 
         - name: 'Deploy to Azure Container Instances'
           uses: 'azure/aci-deploy@v1'
